@@ -1,0 +1,121 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-display: "VT323", ui-monospace, monospace;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-sans: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-phosphor: var(--phosphor);
+  --color-phosphor-dim: var(--phosphor-dim);
+  --color-amber: var(--amber);
+  --color-alert: var(--alert);
+  --color-terminal: var(--terminal-bg);
+  --color-grid: var(--grid);
+}
+
+:root {
+  --radius: 0.125rem;
+  --terminal-bg: oklch(0.14 0.02 200);
+  --phosphor: oklch(0.88 0.22 145);
+  --phosphor-dim: oklch(0.55 0.16 145);
+  --amber: oklch(0.82 0.17 75);
+  --alert: oklch(0.66 0.24 25);
+  --grid: oklch(0.35 0.09 145 / 0.35);
+  --background: var(--terminal-bg);
+  --foreground: var(--phosphor);
+  --card: oklch(0.18 0.03 200);
+  --card-foreground: var(--phosphor);
+  --popover: oklch(0.18 0.03 200);
+  --popover-foreground: var(--phosphor);
+  --primary: var(--phosphor);
+  --primary-foreground: var(--terminal-bg);
+  --secondary: oklch(0.24 0.05 160);
+  --secondary-foreground: var(--phosphor);
+  --muted: oklch(0.22 0.03 200);
+  --muted-foreground: var(--phosphor-dim);
+  --accent: var(--amber);
+  --accent-foreground: var(--terminal-bg);
+  --destructive: var(--alert);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.5 0.14 145 / 0.55);
+  --input: oklch(0.5 0.14 145 / 0.35);
+  --ring: var(--phosphor);
+  --shadow-glow: 0 0 12px oklch(0.88 0.22 145 / 0.55), 0 0 32px oklch(0.88 0.22 145 / 0.25);
+  --shadow-alert: 0 0 12px oklch(0.66 0.24 25 / 0.7);
+}
+
+.dark {
+  --background: var(--terminal-bg);
+  --foreground: var(--phosphor);
+}
+
+@utility text-glow {
+  text-shadow: 0 0 6px currentColor, 0 0 14px oklch(0.88 0.22 145 / 0.45);
+}
+
+@utility text-glow-amber {
+  text-shadow: 0 0 6px currentColor, 0 0 14px oklch(0.82 0.17 75 / 0.5);
+}
+
+@utility text-glow-alert {
+  text-shadow: 0 0 6px currentColor, 0 0 14px oklch(0.66 0.24 25 / 0.6);
+}
+
+@utility terminal-panel {
+  border: 1px solid var(--color-border);
+  background: linear-gradient(180deg, oklch(0.18 0.03 200 / 0.75), oklch(0.14 0.02 200 / 0.85));
+  box-shadow: inset 0 0 0 1px oklch(0.5 0.14 145 / 0.15), 0 0 24px oklch(0.5 0.14 145 / 0.15);
+}
+
+@keyframes crt-flicker { 0%, 100% { opacity: 1; } 45% { opacity: 0.97; } 50% { opacity: 0.92; } 55% { opacity: 0.99; } }
+@keyframes crt-scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes boot-type { from { width: 0; } to { width: 100%; } }
+@keyframes alert-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body, #root { height: 100%; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 6px oklch(0.88 0.22 145 / 0.35);
+    background-image:
+      radial-gradient(ellipse at center, transparent 55%, oklch(0 0 0 / 0.7) 100%),
+      repeating-linear-gradient(0deg, oklch(0 0 0 / 0.25) 0px, oklch(0 0 0 / 0.25) 1px, transparent 1px, transparent 3px);
+    animation: crt-flicker 6s infinite steps(1, end);
+  }
+  h1, h2, h3, .display { font-family: var(--font-display); letter-spacing: 0.06em; }
+  .cursor::after { content: "▍"; margin-left: 0.15em; animation: blink 1s steps(2, end) infinite; }
+}
