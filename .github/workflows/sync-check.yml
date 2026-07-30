@@ -1,10 +1,11 @@
-name: Sync build check
+name: Test and build
 
 on:
   push:
     branches:
       - main
       - agent/lovable-sync
+      - chore/complete-lovable-sync
   pull_request:
     branches:
       - main
@@ -14,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  test-and-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -23,4 +24,5 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
+      - run: npm test
       - run: npm run build
