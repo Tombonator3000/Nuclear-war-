@@ -1,20 +1,37 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Nuclear War – WOPR Edition
 
-# Run and deploy your AI Studio app
+En hyllest-remake av brettspillet **Nuclear War** (Douglas Malewicki, 1965 / Flying Buffalo),
+presentert gjennom det visuelle språket til NORAD-scenene i **WarGames (1983)**:
+fosforgrønne CRT-terminaler, vektorkart og DEFCON-varsler.
 
-This contains everything you need to run your app locally.
+> "The only winning move is not to play." – WOPR
 
-View your app in AI Studio: https://ai.studio/apps/4da27a3a-5473-49f7-a0c9-e314ebde2158
+## Status
+Spillbart. Fire nasjoner (USA, USSR, CHINA, EURO), sekvensiell turrekkefølge,
+animerte rakettbaner, hemmelige kort, fallout og Final Retaliation.
 
-## Run Locally
+## Slik spilles det
+1. **PLAY CARD** – POP-kort huser innbyggere (ubegrenset), våpenkort armeres.
+2. **PICK TARGET** – klikk en fiendtlig by; raketten flyr umiddelbart (~3 s ved 1×)
+   og treffer, blir avskåret eller drifter av kurs.
+3. **END TURN** – hver AI-nasjon handler etter tur, deretter fallout, eliminering
+   og eventuell Final Retaliation.
 
-**Prerequisites:**  Node.js
+Handlingsbudsjett per runde: 1 diplomati, 2 lanseringer, 1 hemmelighet, ubegrenset POP.
 
+## Stack
+- TanStack Start + React 19 + Vite 7
+- Tailwind v4, semantiske oklch-tokens i `src/styles.css`
+- d3-geo + world-atlas for ekte verdenskart, SVG for kart og animasjon
+- Web Audio API (`src/lib/sfx.ts`) for prosedyrell WOPR-lyd
+- Vitest for motortester
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Arkitektur
+- `src/game/engine.ts` – eneste kanoniske regelvei (`applyOrder` + turfaser)
+- `src/game/rng.ts` – seedet PRNG; hele spillet er reproduserbart via `state.seed`
+- `src/lib/scheduler.ts` – pause-/hastighetsbevisst tidsstyring for animasjon og lyd
+- `src/routes/play.tsx` – orkestrering av spiller- og AI-sekvenser
+
+## Dokumentasjon
+- [`log.md`](./log.md) – kronologisk arbeids- og beslutningslogg
+- [`GAUNTLET.md`](./GAUNTLET.md) – kvalitetsløp, bevis og gjenstående risiko
