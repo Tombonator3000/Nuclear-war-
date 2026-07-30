@@ -3,6 +3,7 @@ name: Sync build check
 on:
   push:
     branches:
+      - main
       - agent/lovable-sync
   pull_request:
     branches:
